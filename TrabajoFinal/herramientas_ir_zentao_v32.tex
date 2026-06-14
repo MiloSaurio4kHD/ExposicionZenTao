@@ -1,0 +1,918 @@
+% ============================================================
+%  Exposición -- Herramientas Automatizadas para la IR
+%  Formato: IEEE onecolumn | Todo en negro
+%  Compilación: pdflatex → biber → pdflatex → pdflatex
+% ============================================================
+\documentclass[journal,onecolumn]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage{xcolor}
+\usepackage[hidelinks,colorlinks=false]{hyperref}
+
+\usepackage{geometry}
+\geometry{a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\small Ingeniería de Requisitos -- Herramientas Automatizadas}
+\fancyhead[R]{\small MundiPets}
+\fancyfoot[C]{\thepage}
+
+\usepackage{parskip}
+\setlength{\parskip}{4pt}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage[autostyle=true,spanish=mexican]{csquotes}
+\captionsetup{font=small, labelfont=bf}
+\renewcommand{\thetable}{\arabic{table}}
+
+\usepackage{mdframed}
+\mdfdefinestyle{guia}{
+  linecolor=black,
+  linewidth=0.6pt,
+  backgroundcolor=gray!10,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  skipabove=4pt,
+  skipbelow=4pt
+}
+\newcommand{\guia}[2]{%
+  \begin{mdframed}[style=guia]
+    \noindent\textbf{Responsable: #1}\\[2pt]
+    \textit{#2}
+  \end{mdframed}
+}
+
+\usepackage[
+  backend=biber,
+  style=ieee,
+  citestyle=numeric-comp,
+  isbn=true,
+  doi=true
+]{biblatex}
+\addbibresource{referencias_herramientas.bib}
+
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+
+% ============================================================
+\begin{document}
+	\begin{titlepage}
+		\centering
+		
+		{\large\bfseries UNIVERSIDAD TÉCNICA ESTATAL DE QUEVEDO\\[12pt]}
+		
+		\includegraphics[width=0.3\textwidth]{uteqlogo.png}\\[12pt]
+		
+		{\large\bfseries FACULTAD DE CIENCIAS DE LA COMPUTACIÓN Y DISEÑO DIGITAL\\[4pt]
+			CARRERA DE INGENIERÍA EN SOFTWARE}
+		
+		\vspace{1cm}
+		
+		{\normalsize\bfseries TEMA:}\\[4pt]
+		{\normalsize EXPOSICIÓN - HERRAMIENTAS AUTOMATIZADAS PARA LA INGENIERÍA DE REQUISITOS}
+		
+		\vspace{1cm}
+		
+		{\normalsize \bfseries MATERIA:}\\[4pt]
+		{\normalsize INGENIERÍA DE REQUERIMIENTOS}
+		
+		\vspace{1cm}
+		
+		{\normalsize\bfseries DOCENTE:}\\[4pt]
+		{\normalsize ING. GUERRERO ULLOA GLEISTON CICERÓN}
+		
+		\vspace{1cm}
+		
+		{\normalsize\bfseries INTEGRANTES:}\\[6pt]
+		
+		\textit{\textbf{FUERTES ARRAES EDSON DANIEL}},~0929115087,~efuertesa2@uteq.edu.ec\\
+		
+		\vspace{0.5cm}
+		
+		\textit{CEDEÑO AVILA WINSTON DAMIAN},~0942833492,~wcedenoa2@uteq.edu.ec\\
+		
+		\vspace{0.5cm}
+		
+		\textit{CEDEÑO CORONADO WILSON LIZANDRO},~1206867209,~wcedenoc2@uteq.edu.ec
+		
+		\vspace{1cm}
+		
+		{\normalsize\bfseries CURSO:}\\[4pt]
+		{\normalsize CUARTO SEMESTRE PARALELO ``B''}
+		
+		\vspace{1cm}
+		
+		{\normalsize\bfseries QUEVEDO -- LOS RÍOS -- ECUADOR}\\[4pt]
+		{\normalsize\bfseries 2026 -- 2027 PPA}\\[4pt]
+		{\normalsize Semana 4 -- \today}
+		
+	\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Introducción}
+Las herramientas automatizadas de soporte a la Ingeniería de
+Requisitos surgieron como respuesta a las limitaciones que presentan
+los métodos manuales, como hojas de cálculo y documentos de texto, cuando
+los proyectos crecen en número de requisitos, partes interesadas y
+ciclos de cambio. Jallow et al.\ demuestran empíricamente que la
+gestión manual de requisitos es intensiva en papel, carece de un
+repositorio centralizado y hace prácticamente imposible mantener la
+trazabilidad y el control de cambios a lo largo del ciclo de vida de
+un proyecto \cite{jallow2014}. A medida que los sistemas de software
+aumentan en complejidad, esta situación se agrava: los equipos trabajan
+con versiones desactualizadas de los requisitos, los cambios se comunican por correo electrónico o verbalmente, y el análisis de impacto se realiza sin un proceso definido, con base en la memoria y la experiencia individual \cite{jallow2014}.
+
+Frente a este panorama, las herramientas automatizadas de gestión de
+requisitos aportan cuatro capacidades esenciales que los métodos
+manuales no pueden escalar: trazabilidad bidireccional entre necesidades
+de negocio, diseño, código y pruebas; control de versiones de cada
+requisito a lo largo del tiempo; colaboración simultánea de múltiples
+\textit{stakeholders} distribuidos geográficamente; y generación
+automática de informes de impacto ante cambios. Siddique señala que la
+tendencia actual en IR apunta precisamente hacia la automatización e
+integración de estas actividades con el resto del ciclo de vida del
+desarrollo de software, incorporando tecnologías como inteligencia
+artificial, aprendizaje automático y procesamiento de lenguaje natural
+\cite{siddique2023}. En esa misma línea, Groen et al.\ evidencian que
+el análisis manual de grandes volúmenes de retroalimentación de usuarios
+no escala bien y que la automatización reduce el tiempo de procesamiento
+en un orden de magnitud \cite{groen2018}.
+
+El objetivo de este documento es investigar, evaluar y comparar las
+herramientas representativas del mercado de soporte automatizado a la
+IR, analizando sus funcionalidades principales, ventajas,
+limitaciones y aplicabilidad al sistema del Proyecto Fin de Curso (PFC).
+Las herramientas fueron seleccionadas cubriendo espectros distintos:
+desde soluciones enterprise de alto costo orientadas a industrias
+reguladas, hasta alternativas ligeras y gratuitas adecuadas para equipos
+académicos, incluyendo además la categoría emergente de la IA
+generativa aplicada a la elicitación.
+
+\subsection{Criterios de Selección de las Herramientas}
+
+Para este estudio, ZenTao fue asignada por el docente como herramienta a investigar y exponer.
+La selección responde a criterios que Wiegers y Beatty identifican como determinantes al evaluar
+una herramienta de gestión de requisitos: costo total de propiedad, curva de aprendizaje,
+capacidades de trazabilidad y facilidad de integración con el proceso de desarrollo del equipo
+\cite{wiegers2013}. ZenTao cubre estos criterios en el contexto académico al ofrecer una edición
+\textit{open source} sin costo de licencia, con módulos de \textit{backlog}, pruebas y defectos
+integrados en una misma plataforma, y con una curva de aprendizaje manejable para equipos pequeños.
+\newpage
+
+% ────────────────────────────────────────────────────────────
+\section{Análisis de Herramienta ZenTao}
+% ────────────────────────────────────────────────────────────
+
+\subsection{Descripción General}
+
+ZenTao es una herramienta de gestión de proyectos de software que integra funcionalidades para
+la administración de requisitos, planificación, pruebas y seguimiento de defectos dentro de una
+misma plataforma \cite{zentao2025}. Está disponible en modalidad \textit{open source}, lo que la
+convierte en una alternativa accesible para pequeñas y medianas organizaciones, así como para
+entornos académicos. Desde la perspectiva de la Ingeniería de Requisitos, ZenTao se alinea con
+conceptos fundamentales descritos en el SWEBOK V4 y en la norma ISO/IEC/IEEE 29148:2018,
+particularmente en lo que respecta a la trazabilidad, la gestión del cambio y la colaboración
+entre \textit{stakeholders} \cite{iso29148}.
+
+\subsection{Funcionalidades Principales}
+
+\begin{itemize}
+  \item \textbf{Gestión de requisitos e historias de usuario:} permite registrar, organizar y
+  priorizar requisitos como historias de usuario dentro de un \textit{backlog}, facilitando su
+  seguimiento a lo largo del ciclo de vida del proyecto \cite{zentao2025}.
+
+  \item \textbf{Trazabilidad:} relaciona requisitos con tareas de desarrollo, casos de prueba y
+  defectos reportados, lo que permite rastrear cada requisito desde su origen hasta su verificación,
+  en concordancia con lo establecido en la norma ISO/IEC/IEEE 29148 \cite{iso29148}.
+
+  \item \textbf{Gestión del cambio:} mantiene un historial de modificaciones sobre cada tarea o
+  requisito, lo que facilita el control de versiones y el análisis de impacto ante cambios durante
+  el desarrollo \cite{zentao2025}.
+
+  \item \textbf{Gestión de pruebas:} integra casos de prueba directamente vinculados a los
+  requisitos, lo que apoya las actividades de validación descritas en el SWEBOK V4 \cite{swebok2024}.
+
+  \item \textbf{Colaboración entre equipos:} centraliza la información del proyecto, permitiendo
+  que analistas, desarrolladores y responsables de pruebas accedan a los mismos datos, reduciendo
+  inconsistencias en la documentación y mejorando la comunicación \cite{zentao2025}.
+\end{itemize}
+
+\subsection{Ventajas}
+
+\begin{itemize}
+  \item \textbf{Centralización de la información:} al reunir requisitos, tareas, pruebas y
+  defectos en una sola plataforma, se reduce la posibilidad de que información relevante quede
+  desactualizada o dispersa entre los miembros del equipo \cite{zentao2025}.
+
+  \item \textbf{Accesibilidad económica:} su modelo \textit{open source} implica menores costos
+  de implementación en comparación con herramientas empresariales especializadas, lo que lo hace
+  viable para proyectos académicos y organizaciones de pequeña y mediana escala \cite{zentao2025}.
+
+  \item \textbf{Alineación con estándares de IR:} las funcionalidades de trazabilidad y gestión
+  del cambio se corresponden directamente con las recomendaciones de la norma ISO/IEC/IEEE 29148
+  y los principios descritos en el SWEBOK V4 \cite{iso29148, swebok2024}.
+\end{itemize}
+
+\subsection{Limitaciones}
+
+\begin{itemize}
+  \item \textbf{Curva de aprendizaje inicial:} Wiegers y Beatty advierten que introducir una
+  herramienta de gestión de requisitos en un proyecto ya en marcha implica riesgos que suelen
+  subestimarse, entre ellos la resistencia del equipo y los problemas que solo afloran en uso
+  real \cite{wiegers2013}. En ZenTao, la coexistencia de módulos de \textit{backlog},
+  \textit{sprints}, pruebas y defectos dentro de una misma plataforma puede resultar confusa
+  para usuarios sin experiencia previa en herramientas ALM \cite{zentao2025}.
+
+  \item \textbf{Menor especialización en IR formal:} Hussain et al.\ constatan que las
+  herramientas ALM de propósito general presentan brechas frente a herramientas dedicadas
+  exclusivamente a IR cuando se trata de gestionar trazabilidad a nivel de sistema en proyectos
+  de gran escala o en industrias reguladas, donde se exigen matrices de trazabilidad complejas
+  y auditorías de conformidad \cite{hussain2022}. ZenTao no ofrece, de forma nativa, los niveles
+  de trazabilidad de sistema completos que exigen normas como DO-178C o IEC~62304.
+
+  \item \textbf{Funcionalidades avanzadas restringidas a ediciones de pago:} características
+  como la integración con sistemas de CI/CD, el tablero avanzado de métricas y el soporte
+  oficial en múltiples idiomas están disponibles únicamente en las ediciones Enterprise o
+  Professional, lo que puede representar una barrera para equipos académicos o de pequeña
+  escala que operan con la versión \textit{open source} \cite{zentao2025}.
+\end{itemize}
+
+
+% ============================================================
+\section{Análisis de Herramienta ReqView}
+% ============================================================
+
+\subsection{Descripción General}
+
+ReqView es una herramienta de escritorio para la gestión de requisitos desarrollada por la
+empresa Eccam s.r.o., fundada en 2004 en Praga, República Checa \cite{reqview2026}. Está
+orientada principalmente a equipos pequeños y medianos que necesitan una solución sencilla
+para organizar, documentar y dar seguimiento a los requisitos de un proyecto
+\cite{khoroshilov2019}.
+
+A diferencia de otras herramientas empresariales más complejas, ReqView se caracteriza por
+ser una opción ligera y de menor costo, lo que la convierte en una alternativa atractiva
+para pequeñas empresas, equipos de desarrollo y proyectos académicos. Estudios previos ya
+destacaban que la herramienta ofrecía las funciones básicas necesarias para la gestión de
+requisitos \cite{khoroshilov2019}.
+
+Una de sus características más importantes es que almacena la información en archivos
+locales con formato JSON. Esto permite a los usuarios mantener el control de sus datos,
+trabajar sin conexión a Internet y utilizar herramientas de control de versiones como Git
+para gestionar cambios y colaborar con otros miembros del equipo \cite{khoroshilov2019}.
+Además, ReqView es compatible con los sistemas operativos Windows, Linux y macOS, y ofrece
+una licencia comercial con un período de prueba gratuito de 14 días, permitiendo a los
+usuarios evaluar sus funcionalidades antes de adquirir el producto.
+
+\subsection{Funcionalidades Principales}
+
+\begin{itemize}
+	\item \textbf{Catálogo de requisitos:} permite organizar los requisitos mediante
+	identificadores y atributos básicos, así como gestionar requisitos de
+	\textit{stakeholders}, requisitos del sistema, riesgos y actividades de validación
+	y verificación \cite{khoroshilov2019}.
+
+	\item \textbf{Gestión de relaciones y trazabilidad:} permite establecer relaciones
+	entre requisitos para dar seguimiento a su evolución y mantener la trazabilidad
+	dentro del proyecto, aunque con opciones más limitadas que las de herramientas
+	empresariales más avanzadas \cite{khoroshilov2019}.
+
+	\item \textbf{Importación y exportación de información:} es compatible con formatos
+	como Microsoft Word, Excel, PDF, HTML y ReqIF, facilitando el intercambio de
+	información con herramientas como DOORS, Jira y Polarion \cite{reqview2026import}.
+
+	\item \textbf{Vistas personalizables:} ofrece tablas configurables con filtros,
+	ordenación y columnas personalizadas, permitiendo adaptar la visualización de la
+	información a las necesidades de cada proyecto \cite{reqview2026features}.
+
+	\item \textbf{Control de versiones y cambios:} mantiene un historial de
+	modificaciones y permite gestionar distintas versiones de los requisitos; al
+	trabajar con archivos locales, se integra fácilmente con sistemas como Git y SVN
+	\cite{khoroshilov2019}.
+\end{itemize}
+
+\subsection{Ventajas}
+
+\begin{itemize}
+	\item \textbf{Herramienta ligera y económica:} ReqView es una alternativa más
+	sencilla y accesible en comparación con soluciones empresariales como DOORS,
+	Polarion o Jama, lo que la hace interesante para pequeñas empresas,
+	\textit{startups} y proyectos académicos \cite{reqview2026pricing}.
+
+	\item \textbf{Fácil de aprender y utilizar:} su interfaz es intuitiva y similar a
+	una hoja de cálculo, lo que facilita su uso por parte de personas con poca
+	experiencia en herramientas de gestión de requisitos \cite{reqview2026version}.
+
+	\item \textbf{Mayor control sobre la información:} al almacenar los datos
+	localmente, los usuarios mantienen el control de sus archivos y pueden trabajar
+	sin conexión a Internet, sin requerir infraestructura compleja ni servidores
+	dedicados \cite{reqview2026features}.
+\end{itemize}
+
+\subsection{Limitaciones}
+
+\begin{itemize}
+	\item \textbf{Menor cobertura para proyectos críticos:} ReqView no incorpora todas
+	las funcionalidades necesarias para proyectos altamente complejos o regulados,
+	especialmente en gestión de configuración, análisis de impacto y trabajo
+	colaborativo \cite{khoroshilov2019}.
+
+	\item \textbf{Menos adecuado para sectores con alta regulación:} en industrias como
+	la aeronáutica, defensa o automoción, donde existen estrictos requisitos de
+	certificación, otras herramientas más completas suelen ser una mejor alternativa
+	\cite{khoroshilov2019}.
+
+	\item \textbf{Integraciones y funciones avanzadas más limitadas:} aunque permite
+	intercambiar información con otras herramientas, no cuenta con el mismo nivel de
+	integración ni con las funcionalidades avanzadas de plataformas empresariales como
+	IBM DOORS Next o IBM ELM \cite{khoroshilov2019}.
+\end{itemize}
+
+
+% ============================================================
+\section{Aplicabilidad al Proyecto Fin de Curso}
+% ============================================================
+
+\subsection{Ingeniería de Requisitos y sus Procesos}
+
+La Ingeniería de Requisitos funciona como el proceso que conecta a quienes necesitan un sistema
+con quienes lo construyen. Definir requisitos va más allá de registrar lo que el cliente solicita;
+el trabajo real consiste en transformar esas necesidades en requisitos concretos, medibles y útiles
+para el equipo de desarrollo. El estándar ISO/IEC/IEEE 29148:2018 \cite{iso29148} abarca este
+trabajo desde que aparecen las primeras necesidades hasta que los requisitos se validan y se
+mantienen vigentes durante toda la vida del sistema.
+
+El SWEBOK \cite{swebok2024} organiza este campo en siete subáreas que incluyen la captura, el
+análisis, la especificación y la validación de requisitos, entre otras. Una de las más relevantes
+para proyectos en curso es la de consideraciones prácticas, que trata temas como la gestión del
+cambio y la trazabilidad. Esto deja en claro que trabajar con requisitos no termina cuando se
+levantan: mantenerlos actualizados y rastreables a lo largo del desarrollo tiene tanto peso como
+su recopilación inicial. Para MundiPets, los 25 requisitos obtenidos en las entrevistas son el
+punto de partida; organizarlos, priorizarlos y vincularlos al desarrollo es la tarea que sigue.
+
+\subsection{Stakeholders como Fuente de Requisitos}
+
+Pohl y Rupp \cite{pohl2015} sostienen que los \textit{stakeholders} representan la fuente más
+directa de requisitos en cualquier desarrollo de software. Si algún grupo relevante no se considera
+desde el inicio, sus necesidades aparecerán tarde o temprano como cambios durante el proyecto, lo
+que implica mayor tiempo y costo. Más allá de recolectar información, el rol del ingeniero de
+requisitos incluye gestionar esa relación activamente, entender los objetivos de cada parte y
+mediar cuando hay expectativas contradictorias entre sí.
+
+En el caso de MundiPets se trabajó con cinco grupos de \textit{stakeholders}: propietarios de
+mascotas, usuarios que buscan adoptar o cruzar, refugios y asociaciones, veterinarias y el equipo
+de desarrollo. A cada grupo le correspondió una entrevista estructurada que permitió obtener los
+requisitos desde distintos ángulos. Ese proceso de elicitación con múltiples fuentes es
+precisamente lo que Pohl y Rupp \cite{pohl2015} describen como una forma sistemática de asegurarse
+de que no queden necesidades importantes sin cubrir.
+
+\subsection{Trazabilidad de Requisitos}
+
+Según Pohl y Rupp \cite{pohl2015}, la trazabilidad es la propiedad que permite seguir un requisito
+desde donde se originó hasta los artefactos concretos que lo implementan y verifican. Los autores
+distinguen entre la trazabilidad hacia el origen del requisito, la trazabilidad hacia los
+componentes y casos de prueba que lo realizan, y las relaciones de dependencia entre requisitos.
+Cada uno de esos vínculos tiene utilidad práctica distinta dentro del proyecto.
+
+El SWEBOK \cite{swebok2024} señala que sin trazabilidad es difícil analizar el impacto cuando
+algo cambia: si un requisito se modifica y no existe registro de qué partes del sistema dependen
+de él, el riesgo de introducir errores o dejar funcionalidades incompletas aumenta considerablemente.
+En MundiPets esto aplica especialmente a funcionalidades que manejan datos sensibles, como el
+historial médico de las mascotas o los procesos de adopción, donde un cambio en un requisito puede
+afectar varios puntos del sistema al mismo tiempo.
+
+La norma ISO/IEC/IEEE 29148:2018 \cite{iso29148} trata la trazabilidad como la capacidad de
+registrar de dónde viene cada requisito y a qué partes del sistema está asignado, y agrega que
+gestionar los requisitos implica procesar los cambios de forma ordenada y mantener a todos los
+involucrados al tanto del estado de cada requisito durante el proyecto.
+
+\subsection{Herramientas de Soporte a la Gestión de Requisitos}
+
+Gestionar manualmente la trazabilidad y el seguimiento de requisitos en un equipo de varios
+integrantes con decenas de requisitos es una tarea que fácilmente pierde consistencia. El SWEBOK
+\cite{swebok2024} señala que disponer de herramientas especializadas facilita actividades como el
+control de versiones, el seguimiento de cambios y el registro de artefactos dentro del ciclo de
+desarrollo. ZenTao entra en esa categoría: es una plataforma ALM \textit{open source} donde
+conviven el \textit{backlog}, los \textit{sprints}, el registro de defectos, las pruebas y la
+documentación del proyecto.
+
+Para MundiPets, eso se traduce en algo concreto: los 25 requisitos pasan a ser historias de
+usuario, se distribuyen en \textit{sprints}, se vinculan a sus casos de prueba y cualquier error
+que aparezca durante el desarrollo queda registrado junto al requisito que lo originó. De esa
+forma se construye la trazabilidad post-especificación que Pohl y Rupp \cite{pohl2015} describen:
+cada requisito termina enlazado con las tareas que lo desarrollaron y las pruebas que lo verificaron.
+
+Desde los criterios de la norma ISO/IEC/IEEE 29148:2018 \cite{iso29148}, una gestión de requisitos
+adecuada requiere que los cambios se controlen y que la información fluya hacia todos los involucrados.
+ZenTao responde a eso al guardar el historial de modificaciones por tarea y generar reportes de
+avance que sirven como evidencia del progreso, lo cual resulta útil tanto para el trabajo interno
+del equipo como para las entregas académicas del curso.
+
+\subsection{Mapeo de Actividades de IR a Módulos de MundiPets}
+
+El SWEBOK V4 organiza la IR en subáreas que incluyen elicitación, análisis, especificación,
+validación y gestión de requisitos \cite{swebok2024}. La tabla siguiente muestra cómo ZenTao
+da soporte concreto a cada una de esas actividades en el contexto de los módulos de MundiPets,
+precisando qué funcionalidad de la herramienta se emplea y a qué módulo del sistema aplica.
+
+\begin{table}[H]
+	\caption{Mapeo de actividades de IR con ZenTao para los módulos de MundiPets}
+	\label{tab:mapeo-ir}
+	\begin{tabularx}{\textwidth}{|l|X|l|}
+		\hline
+		\textbf{Actividad IR} & \textbf{Uso en ZenTao} & \textbf{Módulo MundiPets} \\
+		\hline
+		Elicitación & Registro de historias de usuario obtenidas en entrevistas con propietarios de mascotas y refugios & Perfil médico de mascota \\
+		\hline
+		Especificación & Creación de tareas en el \textit{backlog} con criterios de aceptación y prioridad & Historial de vacunación \\
+		\hline
+		Trazabilidad & Vinculación de requisitos con casos de prueba y defectos registrados & Proceso de adopción \\
+		\hline
+		Gestión del cambio & Historial de modificaciones por tarea; notificaciones al equipo ante cambios & Módulo de búsqueda de mascotas \\
+		\hline
+		Validación & Asociación de casos de prueba directamente con los requisitos correspondientes & Registro de veterinarias \\
+		\hline
+		Seguimiento de defectos & Registro de errores vinculados al requisito que los originó & Todos los módulos \\
+		\hline
+	\end{tabularx}
+\end{table}
+
+\subsection{Plan de Adopción}
+
+Pohl y Rupp recomiendan adoptar la herramienta de gestión de requisitos antes de que el proyecto
+esté en marcha, para evitar los riesgos de introducirla tardíamente \cite{pohl2015}. Para
+MundiPets, el plan de adopción de ZenTao contempla las siguientes etapas:
+
+\begin{enumerate}
+  \item \textbf{Semana 1:} instalación de ZenTao Open Source en entorno local o en servidor
+  compartido del equipo; creación del proyecto ``MundiPets'' y configuración de los módulos
+  de \textit{backlog}, \textit{sprints} y pruebas.
+  \item \textbf{Semana 2:} migración de los 25 requisitos obtenidos en las entrevistas como
+  historias de usuario en el \textit{backlog}, asignando prioridad y responsable a cada una.
+  \item \textbf{Semanas 3-4:} vinculación de cada historia de usuario con sus casos de prueba
+  correspondientes; establecimiento de los enlaces de trazabilidad entre el módulo de historial
+  de vacunación, perfil médico y adopción.
+  \item \textbf{Durante el desarrollo:} registro de defectos directamente vinculados al requisito
+  que los originó; actualización del historial de cambios ante cualquier modificación de alcance.
+\end{enumerate}
+
+
+
+\begin{table}[H]
+	\caption{Criterios de evaluación de ZenTao para el PFC -- MundiPets}
+	\label{tab:criterios}
+	\begin{tabularx}{\textwidth}{|l|X|}
+		\hline
+		\textbf{Criterio} & \textbf{Descripción para el PFC} \\
+		\hline
+		Costo & Debe ser gratuito o de bajo costo para uso académico \\
+		\hline
+		Trazabilidad & Debe permitir vincular requisitos con tareas, pruebas y defectos \\
+		\hline
+		Gestión del cambio & Debe registrar el historial de modificaciones sobre los requisitos \\
+		\hline
+		Colaboración & Debe soportar trabajo simultáneo de múltiples integrantes del equipo \\
+		\hline
+		Facilidad de uso & Debe tener una curva de aprendizaje manejable para un equipo académico \\
+		\hline
+		Integración con el ciclo de desarrollo & Debe soportar \textit{sprints}, \textit{backlog} y seguimiento de defectos \\
+		\hline
+	\end{tabularx}
+\end{table}
+
+\subsection{Comparativa de Aplicabilidad}
+
+\begin{table}[H]
+	\caption{Comparativa de funcionalidades de ZenTao frente a herramientas alternativas de IR}
+	\label{tab:comparativa}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabularx}{\textwidth}{|l|X|X|X|X|X|}
+		\hline
+		\textbf{Criterio} & \textbf{ZenTao} & \textbf{Jama Connect} & \textbf{IBM DOORS Next} & \textbf{ReqView} & \textbf{Helix RM} \\
+		\hline
+		\textbf{Trazabilidad} \cite{hussain2022}
+		& Bidireccional: historia $\rightarrow$ tarea $\rightarrow$ caso de prueba $\rightarrow$ defecto
+		& Completa con matrices de trazabilidad y vistas de impacto
+		& Completa; soporta DO-178C e IEC 62304 para industrias reguladas
+		& Básica; trazabilidad a nivel de documento
+		& Completa con vistas de árbol de trazabilidad \\
+		\hline
+		\textbf{Gestión del cambio} \cite{wiegers2013}
+		& Historial de modificaciones por tarea; notificaciones automáticas al equipo
+		& Control de versiones de requisitos con aprobación formal
+		& Control de versiones con flujos de aprobación configurables
+		& Historial de revisiones por documento; sin flujos de aprobación
+		& Gestión de cambios con flujos de aprobación y auditoría \\
+		\hline
+		\textbf{Colaboración} \cite{zentao2025}
+		& Roles diferenciados (analista, desarrollador, tester); trabajo simultáneo en el mismo proyecto
+		& Comentarios inline en requisitos; revisiones colaborativas
+		& Roles configurables; integración con Jazz Team Server
+		& Edición individual; sin colaboración en tiempo real
+		& Revisiones y aprobaciones colaborativas por rol \\
+		\hline
+		\textbf{Integración con IA} \cite{siddique2023}
+		& Sin módulo de IA nativo; integración manual con herramientas externas
+		& Asistente de IA para detección de ambigüedades en requisitos
+		& Watson AI para análisis de calidad de requisitos (versión enterprise)
+		& Sin integración de IA
+		& Sin integración de IA nativa documentada \\
+		\hline
+		\textbf{Costo} \cite{wiegers2013}
+		& Gratuito (Open Source); versiones Professional y Enterprise de pago
+		& Licencia por usuario; precio desde \$75/mes por usuario
+		& Licencia IBM ELM; precio por cotización; alto costo total
+		& Gratuito (hasta 40 requisitos); Pro desde \$8/mes
+		& Solo por cotización; sin versión gratuita documentada \\
+		\hline
+		\textbf{Facilidad de uso} \cite{hussain2022}
+		& Curva de aprendizaje media; interfaz en inglés y chino; documentación disponible
+		& Curva alta; requiere formación para administración
+		& Curva muy alta; requiere certificación IBM recomendada
+		& Curva baja; interfaz intuitiva y documentación clara
+		& Curva alta; orientada a equipos con experiencia en ALM \\
+		\hline
+		\textbf{Despliegue} \cite{zentao2025}
+		& Local (instalación propia) o en la nube
+		& Solo en la nube (SaaS)
+		& En la nube (IBM ELM) o servidor propio
+		& Local (escritorio) o en la nube
+		& En la nube o servidor propio \\
+		\hline
+	\end{tabularx}
+\end{table}
+
+El análisis comparativo muestra que ZenTao es la única herramienta del grupo que combina
+costo cero, despliegue local sin dependencia de Internet continuo y trazabilidad bidireccional
+integrada con gestión de pruebas y defectos en una misma plataforma. Su principal desventaja
+frente a Jama Connect e IBM DOORS Next es la ausencia de integración con IA para detección
+automática de ambigüedades en requisitos, funcionalidad que Siddique identifica como una
+tendencia creciente en las herramientas modernas de IR \cite{siddique2023}. Para el contexto
+académico de MundiPets, este déficit no es determinante, dado que el equipo puede realizar
+la revisión de calidad de requisitos de forma manual apoyándose en las propiedades definidas
+por Pohl y Rupp \cite{pohl2015}.
+
+
+\newpage
+
+% ============================================================
+\section{Vinculación con la Ingeniería de Requisitos}
+% ============================================================
+
+La siguiente tabla presenta las conexiones explícitas entre ZenTao y los conceptos centrales
+de la Ingeniería de Requisitos estudiados en el curso, siguiendo el framework de Pohl y Rupp,
+el SWEBOK V4, la norma ISO/IEC/IEEE 29148:2018 y el modelo de calidad ISO/IEC 25010.
+
+\begin{table}[H]
+	\caption{Vinculación de ZenTao con conceptos de la Ingeniería de Requisitos}
+	\label{tab:vinculacion-ir}
+	\begin{tabularx}{\textwidth}{|l|X|}
+		\hline
+		\textbf{Concepto de IR} & \textbf{ZenTao se relaciona con este concepto porque\ldots} \\
+		\hline
+		Trazabilidad (ISO/IEC/IEEE 29148, Pohl y Rupp)
+		& permite vincular cada historia de usuario con las tareas de desarrollo,
+		los casos de prueba y los defectos que la afectan, satisfaciendo el requisito
+		de trazabilidad bidireccional que establece la norma ISO/IEC/IEEE 29148:2018
+		\cite{iso29148}. En MundiPets esto se aplicó vinculando HU-02 (historial de
+		vacunación) con su caso de prueba CP-02 dentro del módulo de pruebas. \\
+		\hline
+		Gestión del cambio (SWEBOK V4, subárea Requirements Management)
+		& registra el historial de modificaciones de cada requisito y notifica al equipo
+		ante cualquier cambio, cubriendo así la subárea de gestión de requisitos del
+		SWEBOK V4, que señala que controlar los cambios y mantener la trazabilidad son
+		actividades tan importantes como la elicitación inicial \cite{swebok2024}. \\
+		\hline
+		Propiedades de los requisitos: verificabilidad y trazabilidad
+		& al asociar cada historia de usuario con un caso de prueba concreto, ZenTao
+		operacionaliza dos propiedades que Pohl y Rupp consideran fundamentales en
+		cualquier requisito bien formado: la verificabilidad, que exige que exista al
+		menos un método para comprobar si el requisito se cumple, y la trazabilidad,
+		que exige que cada requisito pueda rastrearse hasta su origen y hasta los
+		artefactos que lo implementan \cite{pohl2015}. \\
+		\hline
+		Actividades core de IR: especificación y validación (SWEBOK V4)
+		& el módulo \textit{backlog} de ZenTao soporta la especificación de requisitos
+		en formato de historias de usuario con criterios de aceptación en sintaxis
+		\textit{Given-When-Then}; el módulo de pruebas soporta la validación al
+		permitir ejecutar y registrar los resultados de cada caso de prueba vinculado
+		a un requisito \cite{swebok2024}. Ambas son actividades core de la IR según
+		el SWEBOK V4. \\
+		\hline
+		Atributos de calidad del software (ISO/IEC 25010)
+		& ZenTao contribuye directamente a dos atributos de calidad del modelo
+		ISO/IEC 25010: la \textbf{mantenibilidad}, al mantener un historial de cambios
+		que facilita la comprensión y modificación del sistema, y la
+		\textbf{trazabilidad funcional}, al garantizar que cada requisito pueda
+		rastrearse hasta su verificación \cite{iso25010}. \\
+		\hline
+		Colaboración entre stakeholders (Pohl y Rupp, framework de IR)
+		& centraliza la información del proyecto en un repositorio único accesible
+		para todos los roles del equipo (analista, desarrollador, tester), lo que
+		responde a la necesidad de gestionar activamente la relación con los
+		\textit{stakeholders} que Pohl y Rupp identifican como una responsabilidad
+		central del ingeniero de requisitos \cite{pohl2015}. En MundiPets esto
+		permite que los tres integrantes del equipo trabajen sobre los mismos
+		requisitos sin inconsistencias. \\
+		\hline
+	\end{tabularx}
+\end{table}
+
+% ============================================================
+\section{Análisis Crítico}
+% ============================================================
+
+\subsection{¿ZenTao reemplaza o complementa al analista de requisitos?}
+
+ZenTao complementa al analista de requisitos; no lo reemplaza. La herramienta automatiza
+actividades de registro, seguimiento y notificación de cambios, pero las tareas de mayor
+valor cognitivo de la IR, como la elicitación de necesidades implícitas, la negociación entre
+\textit{stakeholders} con intereses contradictorios y la validación del significado real de un
+requisito, continúan dependiendo del criterio del analista. Hussain y Mkpojiogu señalan que
+las herramientas ALM de propósito general gestionan la información de los requisitos, pero no
+pueden sustituir el razonamiento que se necesita para transformar una necesidad vaga en un
+requisito verificable \cite{hussain2022}. En MundiPets, ZenTao organiza los 25 requisitos
+obtenidos en entrevistas, pero la decisión de cómo priorizar, qué alcance tiene cada uno y
+cómo resolver conflictos entre propietarios de mascotas y refugios es responsabilidad del equipo,
+no de la herramienta.
+
+\subsection{¿Qué propiedad de calidad mejora y cuál compromete?}
+
+ZenTao mejora principalmente la mantenibilidad y la trazabilidad
+del sistema de requisitos: el historial de cambios por tarea y los vínculos entre historias de
+usuario, casos de prueba y defectos facilitan comprender qué partes del sistema se ven afectadas
+ante cualquier modificación, atributos directamente contemplados en el modelo ISO/IEC 25010
+\cite{iso25010}.
+
+Sin embargo, ZenTao puede comprometer la portabilidad y la independencia
+de datos: al almacenar toda la información del proyecto en su base de datos MySQL propia,
+la exportación de requisitos hacia otras herramientas no es directa ni está estandarizada. Si el
+equipo decide migrar a otra plataforma, los vínculos de trazabilidad construidos en ZenTao
+no se transfieren automáticamente en formatos estándar como ReqIF, a diferencia de herramientas
+como ReqView o IBM DOORS Next que soportan este estándar de intercambio de forma nativa.
+Wiegers y Beatty advierten que la dependencia de un formato propietario es un riesgo que
+debe considerarse al evaluar una herramienta de gestión de requisitos \cite{wiegers2013}.
+
+\subsection{¿Es aplicable en el contexto local de la UTEQ?}
+
+Sí, ZenTao es aplicable en el contexto académico de la UTEQ por tres razones concretas. Primero,
+su edición \textit{Open Source} no requiere licencia comercial, lo que elimina la principal barrera
+económica para equipos de estudiantes. Segundo, su instalación es local y no depende de
+conectividad continua a Internet, lo que la hace viable en entornos con acceso irregular a la red.
+Tercero, la interfaz en inglés, aunque puede representar una dificultad inicial, es manejable para
+estudiantes de ingeniería de software en el nivel de cuarto semestre. Pohl y Rupp señalan que
+al evaluar la viabilidad de una herramienta en un contexto específico, el costo de adopción total,
+que incluye tiempo de aprendizaje, infraestructura y soporte, es tan determinante como sus
+funcionalidades técnicas \cite{pohl2015}. En ese balance, ZenTao es la opción más favorable
+frente a Jama Connect, IBM DOORS Next o Helix RM para el contexto de la carrera.
+
+\subsection{¿Qué riesgo ético identifica?}
+
+El principal riesgo ético en el uso de ZenTao para MundiPets es la privacidad de los datos
+médicos de las mascotas. El sistema almacena información sensible: historial de vacunación,
+enfermedades crónicas, estado reproductivo y antecedentes genéticos. Si ZenTao se despliega
+en un servidor compartido sin controles de acceso adecuados, cualquier integrante del equipo o
+persona con acceso al servidor podría consultar o modificar esos datos sin autorización. La norma
+ISO/IEC/IEEE 29148:2018 establece que los requisitos de privacidad y seguridad deben ser
+identificados y gestionados desde las etapas tempranas del desarrollo \cite{iso29148}, lo que
+implica que el equipo debe definir explícitamente qué roles tienen permiso de lectura y escritura
+sobre cada módulo de MundiPets dentro de ZenTao, antes de registrar información real de mascotas
+o usuarios en la plataforma. Un segundo riesgo es la dependencia tecnológica: si el
+proyecto académico migra a producción real, ZenTao Open Source no ofrece garantías de soporte
+a largo plazo, lo que podría dejar al sistema sin herramienta de gestión de requisitos en etapas
+críticas del desarrollo.
+
+\newpage
+
+\section{Conclusiones}
+
+ZenTao constituye una herramienta útil para apoyar actividades relacionadas con la Ingeniería de
+Requisitos, especialmente aquellas vinculadas con la trazabilidad, la gestión del cambio y la
+colaboración entre \textit{stakeholders} \cite{zentao2025}. Su modelo \textit{open source} y su
+integración de múltiples módulos dentro de una misma plataforma la convierten en una alternativa
+adecuada para proyectos académicos y organizaciones de pequeña y mediana escala.
+
+Sin embargo, sus limitaciones evidencian que ninguna herramienta puede reemplazar completamente
+el trabajo del analista de requisitos \cite{hussain2022}. ZenTao debe considerarse un instrumento
+de apoyo y no un sustituto del criterio humano, ya que las tareas de elicitación, negociación y
+validación continúan dependiendo de la capacidad del equipo para comprender las necesidades de los
+\textit{stakeholders} y mediar entre expectativas distintas \cite{pohl2015}.
+
+En el contexto del PFC MundiPets, ZenTao representa la alternativa más viable entre las herramientas
+estudiadas, dado que satisface los criterios de costo, trazabilidad, gestión del cambio y
+colaboración sin requerir licencias comerciales. La calidad de los requisitos, sin embargo,
+continúa dependiendo de los procesos de elicitación y validación que el equipo lleva a cabo fuera
+de la plataforma, en concordancia con los principios establecidos en el SWEBOK V4 \cite{swebok2024}
+y en la norma ISO/IEC/IEEE 29148 \cite{iso29148}.
+
+Desde la perspectiva de la calidad del software, ZenTao contribuye principalmente a mejorar la
+mantenibilidad y la trazabilidad de los requisitos, atributos alineados con el modelo de calidad
+ISO/IEC 25010 \cite{iso25010}.
+
+% ============================================================
+\newpage
+\printbibliography[heading=bibnumbered, title={Referencias}]
+
+\newpage
+
+% ============================================================
+
+\section{Anexos}
+
+\subsection{Manual de Usuario: ZenTao Open Source}
+\label{app:manual}
+
+Esta sección documenta los pasos para instalar ZenTao Open Source y configurar un proyecto
+con requisitos del sistema MundiPets, siguiendo la metodología de gestión de requisitos
+descrita en el SWEBOK V4 \cite{swebok2024}.
+
+\subsubsection{Instalación}
+
+ZenTao Open Source puede instalarse mediante el paquete de instalación multiplataforma
+disponible en \url{https://www.zentao.net/download/pms22.2-86288.html}. Los pasos generales son:
+
+\begin{enumerate}
+	\item Descargar el instalador para el sistema operativo correspondiente (Windows, Linux o macOS).
+	\item Ejecutar el instalador; ZenTao despliega automáticamente un servidor
+	Apache, PHP y MySQL sin necesidad de configuración adicional.
+	\item Acceder desde el navegador a \texttt{http://localhost/zentao} y completar la configuración
+	inicial: nombre de la empresa, usuario administrador y contraseña.
+	\item Crear el proyecto ``MundiPets'' desde el menú \textbf{Proyectos > Crear proyecto},
+	seleccionando metodología \textit{Scrum} y definiendo la duración del semestre como horizonte
+	temporal.
+\end{enumerate}
+
+% IMAGEN 1: zentao_instalador.png
+% Es la pantalla azul del asistente de instalación con el logo de ZenTao y el botón 安装
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=0.6\textwidth]{zentao_instalador.png}}
+	\caption{Asistente de instalación de ZenTao Open Source: selección de directorio de
+		instalación con el servidor Apache, PHP y MySQL integrados.}
+	\label{fig:zentao-instalador}
+\end{figure}
+
+% IMAGEN 2: zentao_panel_servicios.png
+% Es el panel de control con los servicios Apache, MySQL, etc. y el botón "Visit ZenTao"
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=\textwidth]{zentao_panel_servicios.png}}
+	\caption{Panel de servicios de ZenTao Integrated Environment: estado de los servicios
+		Apache, MySQL, PHP y Redis tras la instalación exitosa. Desde aquí se accede
+		a la interfaz web mediante el botón \textit{Visit ZenTao}.}
+	\label{fig:zentao-panel-servicios}
+\end{figure}
+
+% IMAGEN 3: zentao_bienvenida.png
+% Es la pantalla de bienvenida en localhost con el logo de ZenTao y las credenciales iniciales
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=\textwidth]{zentao_bienvenida.png}}
+	\caption{Pantalla de bienvenida de ZenTao en \texttt{http://localhost}: confirmación de
+		instalación exitosa con las credenciales iniciales del administrador.}
+	\label{fig:zentao-bienvenida}
+\end{figure}
+
+\newpage
+
+\subsubsection{Panel principal y proyecto MundiPets}
+
+Una vez completada la instalación e iniciada sesión con las credenciales de administrador,
+ZenTao presenta un panel central que centraliza toda la actividad del proyecto. Desde este
+panel es posible acceder a los módulos de \textit{Program}, \textit{Product},
+\textit{Project}, \textit{Execution} y \textit{Test}, que corresponden a las etapas del
+ciclo de vida del desarrollo descritas en el SWEBOK V4 \cite{swebok2024}. En la sección
+\textit{My Pending Reviews} se visualizan los requisitos pendientes de revisión del producto
+\textit{SistemaMudiPets}, lo que permite al equipo mantener un control continuo sobre el
+estado de cada historia de usuario registrada.
+
+% IMAGEN 4: interfaz_motor.png
+% Es el Dashboard de ZenTao ya logueado, se ve SistemamudiPets en la columna Product
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=\textwidth]{interfaz_motor.png}}
+	\caption{Panel principal (Dashboard) de ZenTao con el proyecto MundiPets activo:
+		se visualizan los módulos de revisiones pendientes, historias, bugs y tareas
+		asignadas al equipo dentro del producto \textit{SistemaMudiPets}.}
+	\label{fig:zentao-dashboard}
+\end{figure}
+
+\newpage
+
+\subsubsection{Registro de Historias de Usuario (Requisitos MundiPets)}
+
+Una vez creado el proyecto, los requisitos obtenidos en las entrevistas se registran como
+historias de usuario en el módulo \textbf{Product \textgreater{} Stories}:
+
+\begin{enumerate}
+	\item Acceder a \textbf{Product \textgreater{} Stories \textgreater{} Create Story}.
+	\item Ingresar el título de la historia, por ejemplo: \textit{``Como propietario de mascota,
+		quiero registrar el historial de vacunación de mi mascota para consultarlo en cualquier
+		momento.''} (requisito funcional HU-02, módulo Historial de Vacunación).
+	\item Asignar prioridad (alta/media/baja) y el responsable del equipo.
+	\item Añadir los criterios de aceptación en el campo de descripción, en formato
+	\textit{Given-When-Then}.
+	\item Repetir el proceso para los 25 requisitos obtenidos de los cinco grupos de
+	\textit{stakeholders} de MundiPets.
+\end{enumerate}
+
+% ---------------------------------------------------------------
+% IMAGEN 5 (PENDIENTE): zentao_interfaz.png
+% Necesitas tomar esta captura:
+%   Ve a Product > SistemamudiPets > Stories
+%   Deben verse varias historias de usuario del PFC en la lista.
+%   Asegúrate de que la columna "Title" muestre nombres relacionados
+%   con MundiPets (historial de vacunación, adopción, veterinarias, etc.)
+%   y que se vea la columna de prioridad y responsable.
+% ---------------------------------------------------------------
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=\textwidth]{zentao_interfaz.png}}
+	\caption{Módulo de historias de usuario del producto \textit{SistemaMudiPets} en ZenTao:
+		listado de requisitos funcionales con prioridad y responsable asignado, en concordancia
+		con la gestión de requisitos descrita en la norma ISO/IEC/IEEE 29148:2018 \cite{iso29148}.}
+	\label{fig:zentao-stories}
+\end{figure}
+
+\newpage
+
+\subsubsection{Vinculación de Requisitos con Casos de Prueba}
+
+Para establecer la trazabilidad entre requisitos y pruebas, ZenTao permite vincular cada
+historia de usuario con los casos de prueba que la verifican:
+
+\begin{enumerate}
+	\item Desde \textbf{Test \textgreater{} Cases}, crear un caso de prueba asociado a una historia
+	de usuario del producto \textit{SistemaMudiPets}.
+	\item En el campo \textbf{Related Story}, seleccionar el requisito correspondiente
+	(por ejemplo HU-13, módulo Proceso de Adopción).
+	\item ZenTao registra el vínculo; desde la vista de la historia es posible verificar
+	qué requisitos tienen cobertura de prueba y cuáles no.
+\end{enumerate}
+
+% ---------------------------------------------------------------
+% IMAGEN 6 (PENDIENTE): zentao_trazabilidad.png
+% Necesitas tomar esta captura:
+%   Ve a Test > Cases y abre el detalle de un caso de prueba.
+%   Debe verse el campo "Related Story" con una historia de MundiPets vinculada.
+%   O bien, abre una historia de usuario y muestra la pestaña de casos de prueba
+%   relacionados en la parte inferior.
+% ---------------------------------------------------------------
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=\textwidth]{zentao_trazabilidad.png}}
+	\caption{Vista de trazabilidad en ZenTao: caso de prueba CP-13 del módulo Proceso de Adopción
+		vinculado a la historia de usuario HU-13 en \textit{SistemaMudiPets},
+		permitiendo verificar la cobertura de cada requisito del PFC \cite{swebok2024}.}
+	\label{fig:zentao-trazabilidad}
+\end{figure}
+
+\newpage
+
+\subsection{GitHub}
+
+Enlace al repositorio de GitHub con los aportes individuales de los integrantes acerca de la investigación: \url{https://github.com/MiloSaurio4kHD/ExposicionZenTao/tree/main}
+
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=\textwidth]{repositorio.png}}
+	\caption{Repositorio del informe de ZenTao}
+	\label{fig:repositorio-github}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[width=\textwidth]{commits.png}}
+	\caption{Commits al repositorio del informe de ZenTao}
+	\label{fig:commit-github}
+\end{figure}
+
+
+\end{document}
